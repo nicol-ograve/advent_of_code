@@ -3,7 +3,7 @@ package year2025.day10
 import kotlin.math.pow
 
 
-data class Machine(
+class Machine(
     val requiredState: Array<Boolean>, val buttons: Array<Array<Int>>, val joltage: Array<Int>
 ) {
 
@@ -20,7 +20,9 @@ data class Machine(
         val minSteps = hashMapOf(Pair(0, 0))
 
         while (queue.isNotEmpty()) {
-            val (intValue, state, steps) = queue.removeFirst()
+            val step = queue.removeFirst()
+            val state = step.state
+            val steps = step.steps
 
             val newSteps = steps + 1
             buttons.forEach {
@@ -33,8 +35,6 @@ data class Machine(
                     queue.add(Step(newIntValue, newState, newSteps))
                 }
             }
-
-
         }
         return minSteps[Converter.parseState(requiredState)]!!
     }
@@ -55,7 +55,6 @@ data class Machine(
     }
 }
 
-data class Step(val intValue: Int, val state: Array<Boolean>, val steps: Int)
 
 private class Converter {
     companion object {
@@ -70,3 +69,5 @@ private class Converter {
         }
     }
 }
+
+class Step(val intValue: Int, val state: Array<Boolean>, val steps: Int) {}
